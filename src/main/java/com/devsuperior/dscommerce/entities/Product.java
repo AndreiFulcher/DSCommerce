@@ -93,4 +93,17 @@ public class Product {
     public List<Order> getOrder() {
         return items.stream().map(OrderItem::getOrder).toList();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+        return id == product.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(id);
+    }
 }
