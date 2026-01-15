@@ -9,8 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service // Serve para registrar a classe como um componente de serviço no Spring
 public class ProductService {
 
@@ -24,8 +22,19 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(Pageable pageable) {
-        Page<Product> result = repository.findAll(pageable);
+    public Page<ProductDTO> findAll(Pageable pageable) { // Serve para buscar todos os produtos com paginação
+        Page<Product> result = repository.findAll(pageable); // Busca todos os produtos do repositório com base na página solicitada
         return result.map(ProductDTO::new); // Converte cada entidade Product em um ProductDTO
+    }
+
+    @Transactional
+    public ProductDTO insert(ProductDTO dto) { // Serve para inserir um novo produto no banco de dados
+        Product entity = new Product();
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setPrice(dto.getPrice());
+        entity.setImgUrl(dto.getImgUrl());
+        entity = repository.save(entity); // Salva a entidade do produto no repositório
+        return new ProductDTO(entity); // Retorna o DTO do produto inserido
     }
 }
