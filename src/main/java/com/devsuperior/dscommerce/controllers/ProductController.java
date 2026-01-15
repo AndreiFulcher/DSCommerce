@@ -45,4 +45,10 @@ public class ProductController {
         dto = service.update(id, dto);
         return ResponseEntity.ok(dto);
     }
+
+    @DeleteMapping(value = "/{id}")  // Serve para mapear requisições HTTP PUT para este método
+    public ResponseEntity<Void> delete(@PathVariable Long id) { // Serve para indicar que o parâmetro id será extraído do caminho da URL
+        service.delete(id);
+        return ResponseEntity.noContent().build(); // Retorna uma resposta HTTP 204 No Content indicando que a exclusão foi bem sucedida
+    }
 }
