@@ -30,11 +30,22 @@ public class ProductService {
     @Transactional
     public ProductDTO insert(ProductDTO dto) { // Serve para inserir um novo produto no banco de dados
         Product entity = new Product();
+        copyDtoToEntity(dto, entity);
+        entity = repository.save(entity); // Salva a entidade do produto no repositório
+        return new ProductDTO(entity); // Retorna o DTO do produto inserido
+    }
+
+    @Transactional
+    public ProductDTO update(Long id, ProductDTO dto) { // Serve para inserir um novo produto no banco de dados
+        Product entity = repository.getReferenceById(id); // Obtém uma referência à entidade do produto com o ID fornecido
+        copyDtoToEntity(dto, entity); // Copia os dados do DTO para a entidade
+        return new ProductDTO(entity); // Retorna o DTO do produto atualizado
+    }
+
+    private void copyDtoToEntity(ProductDTO dto, Product entity) {
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgUrl());
-        entity = repository.save(entity); // Salva a entidade do produto no repositório
-        return new ProductDTO(entity); // Retorna o DTO do produto inserido
     }
 }

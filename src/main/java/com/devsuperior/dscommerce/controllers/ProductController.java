@@ -39,4 +39,10 @@ public class ProductController {
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto); // Retorna uma resposta HTTP 201 Created com o URI do novo recurso no cabeçalho Location
     }
+
+    @PutMapping(value = "/{id}")  // Serve para mapear requisições HTTP PUT para este método
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto) { // Serve para indicar que o parâmetro id será extraído do caminho da URL
+        dto = service.update(id, dto);
+        return ResponseEntity.ok(dto);
+    }
 }
