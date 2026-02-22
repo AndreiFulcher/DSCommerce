@@ -28,8 +28,8 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(Pageable pageable) { // Serve para buscar todos os produtos com paginação
-        Page<Product> result = repository.findAll(pageable); // Busca todos os produtos do repositório com base na página solicitada
+    public Page<ProductDTO> findAll(String name, Pageable pageable) { // Serve para buscar todos os produtos com paginação
+        Page<Product> result = repository.searchByName(name, pageable); // Busca todos os produtos do repositório com base na página solicitada
         return result.map(ProductDTO::new); // Converte cada entidade Product em um ProductDTO
     }
 
