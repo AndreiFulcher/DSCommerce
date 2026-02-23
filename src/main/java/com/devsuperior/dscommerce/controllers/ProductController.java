@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -36,6 +37,7 @@ public class ProductController {
         return ResponseEntity.ok(dto);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping // Serve para mapear requisições HTTP POST para este método
     public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto) { // Serve para indicar que o corpo da requisição será convertido em um objeto ProductDTO
         dto = service.insert(dto);
@@ -44,12 +46,14 @@ public class ProductController {
         return ResponseEntity.created(uri).body(dto); // Retorna uma resposta HTTP 201 Created com o URI do novo recurso no cabeçalho Location
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PutMapping(value = "/{id}")  // Serve para mapear requisições HTTP PUT para este método
     public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO dto) { // Serve para indicar que o parâmetro id será extraído do caminho da URL
         dto = service.update(id, dto);
         return ResponseEntity.ok(dto);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/{id}")  // Serve para mapear requisições HTTP PUT para este método
     public ResponseEntity<Void> delete(@PathVariable Long id) { // Serve para indicar que o parâmetro id será extraído do caminho da URL
         service.delete(id);
