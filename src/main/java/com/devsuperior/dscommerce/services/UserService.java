@@ -55,5 +55,4 @@ public class UserService implements UserDetailsService {
         User user = authenticate();
         return new UserDTO(user);
     }
-
 }

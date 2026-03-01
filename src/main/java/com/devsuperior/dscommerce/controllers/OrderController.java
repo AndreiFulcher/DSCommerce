@@ -29,4 +29,13 @@ public class OrderController {
         OrderDTO dto = service.findById(id);
         return ResponseEntity.ok(dto);
     }
+
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    @PostMapping // Serve para mapear requisições HTTP POST para este método
+    public ResponseEntity<OrderDTO> insert(@Valid @RequestBody OrderDTO dto) { // Serve para indicar que o corpo da requisição será convertido em um objeto ProductDTO
+        dto = service.insert(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(dto.getId()).toUri();
+        return ResponseEntity.created(uri).body(dto); // Retorna uma resposta HTTP 201 Created com o URI do novo recurso no cabeçalho Location
+    }
 }
