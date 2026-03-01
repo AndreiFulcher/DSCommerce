@@ -10,12 +10,12 @@ public class CategoryDTO {
     public CategoryDTO() {
     }
 
-    public CategoryDTO(Long id, String name) {
+    public CategoryDTO(Long id, String name) { // Construtor que recebe os campos id e name para inicializar o DTO
         this.id = id;
         this.name = name;
     }
 
-    public CategoryDTO(Category entity) {
+    public CategoryDTO(Category entity) { // Construtor que recebe uma entidade de categoria e inicializa os campos do DTO com os valores correspondentes
         id = entity.getId();
         name = entity.getName();
     }
