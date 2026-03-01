@@ -23,7 +23,7 @@ public class OrderController {
     @Autowired // Serve para injetar a dependência do repositório de produtos
     private OrderService service;
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @GetMapping(value = "/{id}")  // Serve para mapear requisições HTTP GET para este método
     public ResponseEntity<OrderDTO> findById(@PathVariable Long id) { // Serve para indicar que o parâmetro id será extraído do caminho da URL
         OrderDTO dto = service.findById(id);

@@ -29,10 +29,14 @@ public class OrderService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AuthService authService;
+
     @Transactional(readOnly = true) // Serve para definir o escopo da transação como somente leitura
     public OrderDTO findById(Long id) {
         Order order = (Order) repository.findById(id).orElseThrow(
                 () -> new ResourseNotFoundException("Recurso não encontrado")); // Busca o produto pelo ID no repositório, lançando uma exceção se não for encontrado
+        authService.validateSelfOrAdmin(order.getClient().getId()); // Verifica se o usuário autenticado é o cliente do pedido ou um administrador
         return new OrderDTO(order);
     }
 
